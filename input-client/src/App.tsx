@@ -15,36 +15,29 @@ function useForceUpdate() {
 function App() {
 	const forceUpdate = useForceUpdate();
 
-	// useref with array of type GroupType
-	const data = useRef<GroupType[]>([]);
-
 	// useref of grouptype
 	const group = useRef<GroupType>({
 		groups: [],
 		id: 0,
 		name: "BIG GROUP",
+		classes: [],
+		minimumNumberFromGroup: 0,
+		mutuallyExclusive: false,
 	});
-
-	// createNewGroup function
-	function createNewGroup() {
-		let newGroup: GroupType = {
-			groups: [],
-			id: data.current.length,
-			name: "Group " + data.current.length,
-		};
-		data.current.push(newGroup);
-		forceUpdate();
-	}
-
-	console.log("data.current", data.current);
 
 	return (
 		<div>
 			<h1>Groups</h1>
-			{data.current.map((group: any, index: number) => {
-				return <Group key={index} group={group} forceReload={forceUpdate} />;
-			})}
-			<button onClick={createNewGroup}>Add group</button>
+			<Group group={group.current} forceReload={forceUpdate}></Group>
+
+			<button
+				onClick={() => {
+					console.log(group.current);
+				}}
+				className="border-4 border-red-700 p-2"
+			>
+				Show data
+			</button>
 		</div>
 	);
 }
